@@ -21,6 +21,7 @@ import { TokenMetrics } from '@/components/token-metrics'
 import { SystemStatus } from '@/components/system-status'
 import { PumpBondingCurve } from '@/components/pump-bonding-curve'
 import { PremiumTier } from '@/components/premium-tier'
+import { BuildWithKira } from '@/components/build-with-kira'
 
 export default function DashboardPage() {
   return (
@@ -176,6 +177,16 @@ export default function DashboardPage() {
         className="mt-8"
       >
         <PremiumTier />
+      </motion.div>
+
+      {/* Build With Kira section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.575 }}
+        className="mt-8"
+      >
+        <BuildWithKira />
       </motion.div>
 
       {/* Bottom row - Live data feed */}

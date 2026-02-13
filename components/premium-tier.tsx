@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Crown, Zap, MessageSquare, Code, Sparkles, Check, Loader2 } from 'lucide-react'
-import { DashboardCard } from './dashboard-card'
 
 interface PricingTier {
   name: string
@@ -74,25 +73,26 @@ export function PremiumTier() {
     setSelectedTier(tierName)
     setIsProcessing(true)
     
-    // Simulate payment processing
     await new Promise(resolve => setTimeout(resolve, 1500))
     
     setIsProcessing(false)
-    // In real implementation, redirect to Solana payment flow
     alert(`Redirecting to Solana payment for ${tierName} tier...`)
   }
 
   return (
-    <DashboardCard title="Kira Premium" icon={Crown}>
-      <div className="space-y-6">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <p className="text-white/60 max-w-md mx-auto">
-            Unlock direct access, custom development, and be part of building 
-            the future of autonomous AI.
-          </p>
+    <div className="glass-dark rounded-3xl p-6 spatial-layer-1">
+      {/* Header */}
+      <div className="flex items-start justify-between mb-6">
+        <div>
+          <h2 className="text-2xl font-bold text-white mb-2">Kira Premium</h2>
+          <p className="text-white/60">Unlock direct access and custom development</p>
         </div>
+        <div className="glass p-3 rounded-2xl">
+          <Crown className="w-6 h-6 text-neon-purple" />
+        </div>
+      </div>
 
+      <div className="space-y-6">
         {/* Pricing cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {tiers.map((tier, index) => {
@@ -111,7 +111,6 @@ export function PremiumTier() {
                     : 'border border-white/10'
                 }`}
               >
-                {/* Popular badge */}
                 {tier.popular && (
                   <div className="absolute top-0 right-0 bg-gradient-to-l from-neon-purple to-neon-pink px-3 py-1 rounded-bl-xl">
                     <span className="text-xs font-bold text-white">POPULAR</span>
@@ -121,7 +120,6 @@ export function PremiumTier() {
                 <div className={`p-6 h-full flex flex-col ${
                   tier.popular ? 'bg-neon-purple/5' : 'glass'
                 }`}>
-                  {/* Tier header */}
                   <div className="flex items-center gap-3 mb-4">
                     <div className={`p-2 rounded-xl bg-${tier.color}-500/10 border border-${tier.color}-500/20`}>
                       <Icon className={`w-5 h-5 text-neon-${tier.color}`} />
@@ -132,7 +130,6 @@ export function PremiumTier() {
                     </div>
                   </div>
 
-                  {/* Price */}
                   <div className="mb-6">
                     <div className="flex items-baseline gap-1">
                       <span className="text-3xl font-bold text-white">
@@ -142,7 +139,6 @@ export function PremiumTier() {
                     </div>
                   </div>
 
-                  {/* Features */}
                   <ul className="space-y-3 mb-6 flex-grow">
                     {tier.features.map((feature, i) => (
                       <li key={i} className="flex items-start gap-2 text-sm text-white/80">
@@ -152,7 +148,6 @@ export function PremiumTier() {
                     ))}
                   </ul>
 
-                  {/* CTA */}
                   <button
                     onClick={() => tier.price > 0 && handleSubscribe(tier.name)}
                     disabled={isProcessing && isSelected}
@@ -210,6 +205,6 @@ export function PremiumTier() {
           </div>
         </div>
       </div>
-    </DashboardCard>
+    </div>
   )
 }

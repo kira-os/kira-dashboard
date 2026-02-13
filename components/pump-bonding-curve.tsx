@@ -3,7 +3,6 @@
 import { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { Activity, TrendingUp, Zap, Info } from 'lucide-react'
-import { DashboardCard } from './dashboard-card'
 
 interface BondingCurveData {
   currentPrice: number
@@ -58,7 +57,18 @@ export function PumpBondingCurve() {
   }
 
   return (
-    <DashboardCard title="Pump.fun Bonding Curve" icon={Activity}>
+    <div className="glass-dark rounded-3xl p-6 spatial-layer-1">
+      {/* Header */}
+      <div className="flex items-start justify-between mb-6">
+        <div>
+          <h2 className="text-2xl font-bold text-white mb-2">Pump.fun Bonding Curve</h2>
+          <p className="text-white/60">Real-time bonding curve analytics</p>
+        </div>
+        <div className="glass p-3 rounded-2xl">
+          <Activity className="w-6 h-6 text-neon-green" />
+        </div>
+      </div>
+
       <div className="space-y-6">
         {/* Progress indicator */}
         <div className="glass rounded-2xl p-4">
@@ -207,6 +217,6 @@ export function PumpBondingCurve() {
           </p>
         </div>
       </div>
-    </DashboardCard>
+    </div>
   )
 }
