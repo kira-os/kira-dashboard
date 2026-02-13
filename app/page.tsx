@@ -20,6 +20,7 @@ import { LiveDataFeed } from '@/components/live-data-feed'
 import { TokenMetrics } from '@/components/token-metrics'
 import { SystemStatus } from '@/components/system-status'
 import { PumpBondingCurve } from '@/components/pump-bonding-curve'
+import { PremiumTier } from '@/components/premium-tier'
 
 export default function DashboardPage() {
   return (
@@ -166,6 +167,16 @@ export default function DashboardPage() {
           <SystemStatus />
         </motion.div>
       </div>
+
+      {/* Premium tier section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.55 }}
+        className="mt-8"
+      >
+        <PremiumTier />
+      </motion.div>
 
       {/* Bottom row - Live data feed */}
       <motion.div
