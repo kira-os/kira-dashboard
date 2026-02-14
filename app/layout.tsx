@@ -4,6 +4,7 @@ import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Navigation } from '@/components/navigation'
 import { BackgroundEffects } from '@/components/background-effects'
+import { PasswordGate } from '@/components/password-gate'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,21 +20,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} antialiased overflow-hidden`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <BackgroundEffects />
-          <div className="relative min-h-screen grid-background">
-            <Navigation />
-            <main className="relative z-10">
-              {children}
-            </main>
-          </div>
-        </ThemeProvider>
+      <body className={`${inter.className} antialiased`}>
+        <PasswordGate>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <BackgroundEffects />
+            <div className="relative min-h-screen grid-background">
+              <Navigation />
+              <main className="relative z-10">
+                {children}
+              </main>
+            </div>
+          </ThemeProvider>
+        </PasswordGate>
       </body>
     </html>
   )

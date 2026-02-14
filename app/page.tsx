@@ -22,6 +22,10 @@ import { SystemStatus } from '@/components/system-status'
 import { PumpBondingCurve } from '@/components/pump-bonding-curve'
 import { PremiumTier } from '@/components/premium-tier'
 import { BuildWithKira } from '@/components/build-with-kira'
+import { WalletViewer } from '@/components/wallet-viewer'
+import { MultiWalletManager } from '@/components/multi-wallet-manager'
+import { MultisigTreasury } from '@/components/multisig-treasury'
+import { MonitoringDashboard } from '@/components/monitoring-dashboard'
 
 export default function DashboardPage() {
   return (
@@ -187,6 +191,46 @@ export default function DashboardPage() {
         className="mt-8"
       >
         <BuildWithKira />
+      </motion.div>
+
+      {/* Wallet Viewer section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.5875 }}
+        className="mt-8 max-w-md mx-auto"
+      >
+        <WalletViewer />
+      </motion.div>
+
+      {/* Multi-Wallet Manager */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.59375 }}
+        className="mt-8"
+      >
+        <MultiWalletManager />
+      </motion.div>
+
+      {/* Multi-Sig Treasury */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.596875 }}
+        className="mt-8"
+      >
+        <MultisigTreasury />
+      </motion.div>
+
+      {/* Monitoring Dashboard */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.6 }}
+        className="mt-8"
+      >
+        <MonitoringDashboard />
       </motion.div>
 
       {/* Bottom row - Live data feed */}
