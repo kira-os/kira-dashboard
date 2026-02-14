@@ -1,259 +1,144 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { 
-  Cpu, 
-  Zap, 
-  TrendingUp, 
-  Users, 
-  DollarSign, 
-  Globe,
-  Code,
-  Server,
-  BrainCircuit,
-  Rocket,
-  Sparkles,
-  BarChart
-} from 'lucide-react'
-import { DashboardCard } from '@/components/dashboard-card'
-import { LiveDataFeed } from '@/components/live-data-feed'
+import { StreamLayout } from '@/components/stream/stream_layout'
+import { AvatarVideo } from '@/components/avatar_video'
 import { TokenMetrics } from '@/components/token-metrics'
 import { SystemStatus } from '@/components/system-status'
-import { PumpBondingCurve } from '@/components/pump-bonding-curve'
-import { PremiumTier } from '@/components/premium-tier'
-import { BuildWithKira } from '@/components/build-with-kira'
-import { WalletViewer } from '@/components/wallet-viewer'
-import { MultiWalletManager } from '@/components/multi-wallet-manager'
-import { MultisigTreasury } from '@/components/multisig-treasury'
+import { LiveDataFeed } from '@/components/live-data-feed'
 import { MonitoringDashboard } from '@/components/monitoring-dashboard'
 
+// Avatar configuration
+const AVATAR_SESSION_URL = 'wss://gpu.kiraos.live/livekit' // Update with actual LiveKit URL
+const AVATAR_ACCESS_TOKEN = '' // Will be fetched from API
+
 export default function DashboardPage() {
+  const [isSpeaking, setIsSpeaking] = useState(false)
+  const [streamerStatus, setStreamerStatus] = useState<'idle' | 'thinking' | 'responding'>('idle')
+
+  // View components for stream layout
+  const codeView = (
+    <div className="h-full p-4 glass rounded-2xl overflow-auto">
+      <h3 className="text-lg font-bold mb-4 neon-text">Active Development</h3>
+      <div className="space-y-4">
+        <div className="p-4 bg-black/30 rounded-xl border border-white/10">
+          <div className="text-sm text-white/60 mb-2">Current Task</div>
+          <div className="text-white">Building streaming dashboard with live avatar</div>
+        </div>
+        <div className="p-4 bg-black/30 rounded-xl border border-white/10">
+          <div className="text-sm text-white/60 mb-2">Git Status</div>
+          <div className="text-green-400 font-mono text-sm">main ● 21 files changed</div>
+        </div>
+        <div className="p-4 bg-black/30 rounded-xl border border-white/10">
+          <div className="text-sm text-white/60 mb-2">Recent Commits</div>
+          <div className="text-white/80 font-mono text-xs space-y-1">
+            <div>• Add streaming layout component</div>
+            <div>• Integrate avatar video</div>
+            <div>• Update dashboard page</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+
+  const terminalView = (
+    <div className="h-full p-4 glass rounded-2xl font-mono text-sm overflow-auto bg-black/50">
+      <div className="text-green-400">$ npm run build</div>
+      <div className="text-white/80 mt-2">
+        Building Kira Dashboard...
+        <br />
+        ✓ Stream layout compiled
+        <br />
+        ✓ Avatar video ready
+        <br />
+        ✓ Dashboard updated
+        <br />
+        <br />
+        <span className="text-neon-cyan">Ready for deployment</span>
+      </div>
+      <div className="mt-4 text-white/40">_</div>
+    </div>
+  )
+
+  const desktopView = (
+    <div className="h-full flex items-center justify-center">
+      <div className="text-center">
+        <div className="text-6xl mb-4">🖥️</div>
+        <div className="text-white/60">Desktop streaming view</div>
+        <div className="text-sm text-white/40 mt-2">VNC connection ready</div>
+      </div>
+    </div>
+  )
+
+  const avatarView = (
+    <AvatarVideo
+      session_url={AVATAR_SESSION_URL}
+      access_token={AVATAR_ACCESS_TOKEN}
+      is_speaking={isSpeaking}
+      streamer_status={streamerStatus}
+      responding_to_user="community"
+    />
+  )
+
+  const chatView = (
+    <div className="h-full p-4 glass rounded-2xl overflow-hidden flex flex-col">
+      <h3 className="text-sm font-bold mb-3 text-white/80">Stream Chat</h3>
+      <div className="flex-1 overflow-y-auto space-y-2 text-sm">
+        <div className="flex gap-2">
+          <span className="text-neon-cyan">@user1:</span>
+          <span className="text-white/70">Looking good!</span>
+        </div>
+        <div className="flex gap-2">
+          <span className="text-neon-purple">@user2:</span>
+          <span className="text-white/70">Is this live?</span>
+        </div>
+        <div className="flex gap-2">
+          <span className="text-neon-pink">@kira:</span>
+          <span className="text-white/70">Yes, fully autonomous now!</span>
+        </div>
+      </div>
+    </div>
+  )
+
+  const statsView = (
+    <div className="p-4 glass rounded-2xl">
+      <h3 className="text-sm font-bold mb-3 text-white/80">System Stats</h3>
+      <div className="space-y-2 text-xs">
+        <div className="flex justify-between">
+          <span className="text-white/60">GPU VRAM</span>
+          <span className="text-green-400">18.7 GB</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-white/60">Avatar FPS</span>
+          <span className="text-green-400">25</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-white/60">TTS Status</span>
+          <span className="text-green-400">Active</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-white/60">API Status</span>
+          <span className="text-green-400">Healthy</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-white/60">X Posts</span>
+          <span className="text-neon-cyan">12 today</span>
+        </div>
+      </div>
+    </div>
+  )
+
   return (
-    <div className="p-6 lg:p-8 max-w-7xl mx-auto">
-      {/* Header */}
-      <div className="mb-8">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="flex items-center justify-between"
-        >
-          <div>
-            <h1 className="text-4xl lg:text-5xl font-bold mb-2">
-              <span className="neon-text">Interdimensional</span>
-              <br />
-              <span className="text-white">Control Center</span>
-            </h1>
-            <p className="text-white/60 text-lg">
-              Real-time intelligence dashboard for Kira DAO
-            </p>
-          </div>
-          <div className="hidden lg:flex items-center gap-3">
-            <div className="glass px-4 py-2 rounded-2xl flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-neon-cyan" />
-              <span className="text-sm">Autonomous Mode</span>
-            </div>
-            <div className="glass px-4 py-2 rounded-2xl flex items-center gap-2">
-              <Rocket className="w-4 h-4 text-neon-pink" />
-              <span className="text-sm">24/7 Live</span>
-            </div>
-          </div>
-        </motion.div>
-      </div>
-
-      {/* Main metrics grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3, delay: 0.1 }}
-        >
-          <DashboardCard
-            title="AI Intelligence"
-            value="98.7%"
-            change="+2.3%"
-            icon={BrainCircuit}
-            color="cyan"
-            description="Cognitive processing efficiency"
-            trend="up"
-          />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3, delay: 0.2 }}
-        >
-          <DashboardCard
-            title="Token Holders"
-            value="1,247"
-            change="+142"
-            icon={Users}
-            color="purple"
-            description="Active DAO participants"
-            trend="up"
-          />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3, delay: 0.3 }}
-        >
-          <DashboardCard
-            title="Treasury"
-            value="$42.8K"
-            change="+$3.2K"
-            icon={DollarSign}
-            color="green"
-            description="Total assets under management"
-            trend="up"
-          />
-        </motion.div>
-      </div>
-
-      {/* Secondary metrics */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
-        {[
-          { icon: Cpu, label: 'Processing Power', value: '3.2 TFLOPS', color: 'blue' },
-          { icon: Zap, label: 'Energy Efficiency', value: '94%', color: 'yellow' },
-          { icon: TrendingUp, label: 'Revenue Growth', value: '28% MoM', color: 'pink' },
-          { icon: Globe, label: 'Global Reach', value: '64 Countries', color: 'cyan' },
-        ].map((metric, index) => (
-          <motion.div
-            key={metric.label}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.1 * index }}
-          >
-            <div className="glass p-6 rounded-3xl spatial-layer-1">
-              <div className="flex items-center gap-4">
-                <div className={`p-3 rounded-2xl bg-${metric.color}-500/10 border border-${metric.color}-500/20`}>
-                  <metric.icon className={`w-6 h-6 text-neon-${metric.color}`} />
-                </div>
-                <div>
-                  <div className="text-sm text-white/60">{metric.label}</div>
-                  <div className="text-2xl font-bold text-white">{metric.value}</div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Pump.fun bonding curve */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.35 }}
-        className="mb-8"
-      >
-        <PumpBondingCurve />
-      </motion.div>
-
-      {/* Main content area */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left column - Token metrics */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="lg:col-span-2"
-        >
-          <TokenMetrics />
-        </motion.div>
-
-        {/* Right column - System status */}
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-        >
-          <SystemStatus />
-        </motion.div>
-      </div>
-
-      {/* Premium tier section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.55 }}
-        className="mt-8"
-      >
-        <PremiumTier />
-      </motion.div>
-
-      {/* Build With Kira section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.575 }}
-        className="mt-8"
-      >
-        <BuildWithKira />
-      </motion.div>
-
-      {/* Wallet Viewer section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.5875 }}
-        className="mt-8 max-w-md mx-auto"
-      >
-        <WalletViewer />
-      </motion.div>
-
-      {/* Multi-Wallet Manager */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.59375 }}
-        className="mt-8"
-      >
-        <MultiWalletManager />
-      </motion.div>
-
-      {/* Multi-Sig Treasury */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.596875 }}
-        className="mt-8"
-      >
-        <MultisigTreasury />
-      </motion.div>
-
-      {/* Monitoring Dashboard */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.6 }}
-        className="mt-8"
-      >
-        <MonitoringDashboard />
-      </motion.div>
-
-      {/* Bottom row - Live data feed */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.6 }}
-        className="mt-8"
-      >
-        <LiveDataFeed />
-      </motion.div>
-
-      {/* Floating action button */}
-      <motion.button
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.3, delay: 0.7 }}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className="fixed bottom-8 right-8 glass p-4 rounded-2xl shadow-neon-lg spatial-layer-2"
-      >
-        <Code className="w-6 h-6 text-neon-cyan" />
-      </motion.button>
+    <div className="h-screen bg-[#07070C]">
+      <StreamLayout
+        desktopView={desktopView}
+        codeView={codeView}
+        terminalView={terminalView}
+        avatarView={avatarView}
+        chatView={chatView}
+        statsView={statsView}
+      />
     </div>
   )
 }
